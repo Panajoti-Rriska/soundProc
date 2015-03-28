@@ -1,0 +1,19 @@
+c:\users\panoslennon\documents\visual studio 2013\Projects\waveFile\waveFile\bin\Debug\waveFile.exe.config
+c:\users\panoslennon\documents\visual studio 2013\Projects\waveFile\waveFile\bin\Debug\waveFile.exe
+c:\users\panoslennon\documents\visual studio 2013\Projects\waveFile\waveFile\bin\Debug\waveFile.pdb
+c:\users\panoslennon\documents\visual studio 2013\Projects\waveFile\waveFile\bin\Debug\NAudio.dll
+c:\users\panoslennon\documents\visual studio 2013\Projects\waveFile\waveFile\obj\Debug\waveFile.csprojResolveAssemblyReference.cache
+c:\users\panoslennon\documents\visual studio 2013\Projects\waveFile\waveFile\obj\Debug\waveFile.Form1.resources
+c:\users\panoslennon\documents\visual studio 2013\Projects\waveFile\waveFile\obj\Debug\waveFile.Properties.Resources.resources
+c:\users\panoslennon\documents\visual studio 2013\Projects\waveFile\waveFile\obj\Debug\waveFile.csproj.GenerateResource.Cache
+c:\users\panoslennon\documents\visual studio 2013\Projects\waveFile\waveFile\obj\Debug\waveFile.exe
+c:\users\panoslennon\documents\visual studio 2013\Projects\waveFile\waveFile\obj\Debug\waveFile.pdb
+C:\Users\panoslennon\Documents\SchoolStuff\lastSemester\1stSemesterMasterDegree\waveFile\waveFile\bin\Debug\waveFile.exe.config
+C:\Users\panoslennon\Documents\SchoolStuff\lastSemester\1stSemesterMasterDegree\waveFile\waveFile\obj\Debug\waveFile.exe
+C:\Users\panoslennon\Documents\SchoolStuff\lastSemester\1stSemesterMasterDegree\waveFile\waveFile\obj\Debug\waveFile.pdb
+C:\Users\panoslennon\Documents\SchoolStuff\lastSemester\1stSemesterMasterDegree\waveFile\waveFile\bin\Debug\waveFile.exe
+C:\Users\panoslennon\Documents\SchoolStuff\lastSemester\1stSemesterMasterDegree\waveFile\waveFile\bin\Debug\waveFile.pdb
+C:\Users\panoslennon\Documents\SchoolStuff\lastSemester\1stSemesterMasterDegree\waveFile\waveFile\obj\Debug\waveFile.csprojResolveAssemblyReference.cache
+C:\Users\panoslennon\Documents\SchoolStuff\lastSemester\1stSemesterMasterDegree\waveFile\waveFile\obj\Debug\waveFile.Form1.resources
+C:\Users\panoslennon\Documents\SchoolStuff\lastSemester\1stSemesterMasterDegree\waveFile\waveFile\obj\Debug\waveFile.Properties.Resources.resources
+C:\Users\panoslennon\Documents\SchoolStuff\lastSemester\1stSemesterMasterDegree\waveFile\waveFile\obj\Debug\waveFile.csproj.GenerateResource.Cache
