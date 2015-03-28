@@ -17,3 +17,12 @@ C:\Users\panoslennon\Documents\SchoolStuff\lastSemester\1stSemesterMasterDegree\
 C:\Users\panoslennon\Documents\SchoolStuff\lastSemester\1stSemesterMasterDegree\waveFile\waveFile\obj\Debug\waveFile.Form1.resources
 C:\Users\panoslennon\Documents\SchoolStuff\lastSemester\1stSemesterMasterDegree\waveFile\waveFile\obj\Debug\waveFile.Properties.Resources.resources
 C:\Users\panoslennon\Documents\SchoolStuff\lastSemester\1stSemesterMasterDegree\waveFile\waveFile\obj\Debug\waveFile.csproj.GenerateResource.Cache
+C:\Users\panoslennon\Documents\Porgramming Stuff\C#\soundProc\waveFile\waveFile\bin\Debug\waveFile.exe.config
+C:\Users\panoslennon\Documents\Porgramming Stuff\C#\soundProc\waveFile\waveFile\obj\Debug\waveFile.exe
+C:\Users\panoslennon\Documents\Porgramming Stuff\C#\soundProc\waveFile\waveFile\obj\Debug\waveFile.pdb
+C:\Users\panoslennon\Documents\Porgramming Stuff\C#\soundProc\waveFile\waveFile\bin\Debug\waveFile.exe
+C:\Users\panoslennon\Documents\Porgramming Stuff\C#\soundProc\waveFile\waveFile\bin\Debug\waveFile.pdb
+C:\Users\panoslennon\Documents\Porgramming Stuff\C#\soundProc\waveFile\waveFile\obj\Debug\waveFile.csprojResolveAssemblyReference.cache
+C:\Users\panoslennon\Documents\Porgramming Stuff\C#\soundProc\waveFile\waveFile\obj\Debug\waveFile.Form1.resources
+C:\Users\panoslennon\Documents\Porgramming Stuff\C#\soundProc\waveFile\waveFile\obj\Debug\waveFile.Properties.Resources.resources
+C:\Users\panoslennon\Documents\Porgramming Stuff\C#\soundProc\waveFile\waveFile\obj\Debug\waveFile.csproj.GenerateResource.Cache
