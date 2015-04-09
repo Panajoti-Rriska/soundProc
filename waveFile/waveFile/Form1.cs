@@ -17,8 +17,9 @@ namespace waveFile
             InitializeComponent();
         }
 
-        private NAudio.Wave.WaveFileReader wave = null;
+        private NAudio.Wave.WaveFileReader wavefile = null;
         private NAudio.Wave.DirectSoundOut output = null;
+        private int counter = 1;
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -30,13 +31,37 @@ namespace waveFile
 
             DisposeWave();
 
-            wave = new NAudio.Wave.WaveFileReader(open.FileName);
+            wavefile = new NAudio.Wave.WaveFileReader(open.FileName);
             output = new NAudio.Wave.DirectSoundOut();
-            output.Init(new NAudio.Wave.WaveChannel32(wave));
+            output.Init(new NAudio.Wave.WaveChannel32(wavefile));
             output.Play();
 
+            counter++;
+
             pauseButton.Enabled = true;
-            
+
+            //waveViewer1.SamplesPerPixel = 400;
+            //waveViewer1.StartPosition = 40000;
+            //waveViewer1.WaveStream = new NAudio.Wave.WaveFileReader(open.FileName);
+
+            chart1.Series.Add("wave"+counter);
+            chart1.Series["wave"+counter].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            chart1.Series["wave"+counter].ChartArea = "ChartArea1";
+
+            NAudio.Wave.WaveChannel32 wave = new NAudio.Wave.WaveChannel32(new NAudio.Wave.WaveFileReader(open.FileName));
+
+            byte[] buffer = new byte[16384];
+            int read = 0;
+
+            while(wave.Position < wave.Length)
+            {
+                read = wave.Read(buffer, 0, 16384);
+
+                for (int i = 0; i < read / 4; i++)
+                {
+                    chart1.Series["wave"+counter].Points.Add(BitConverter.ToSingle(buffer, i * 4));
+                }
+            }
         }
 
         private void pauseButton_Click(object sender, EventArgs e)
@@ -61,10 +86,10 @@ namespace waveFile
                 output = null;
             }
 
-            if(wave != null)
+            if(wavefile != null)
             {
-                wave.Dispose();
-                wave = null;
+                wavefile.Dispose();
+                wavefile = null;
             }
         }
 
