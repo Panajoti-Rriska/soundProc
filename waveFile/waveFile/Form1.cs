@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using NAudio.Wave;
 namespace waveFile
 {
     public partial class Form1 : Form
@@ -15,26 +15,34 @@ namespace waveFile
         public Form1()
         {
             InitializeComponent();
+            
         }
 
-        private NAudio.Wave.WaveFileReader wavefile = null;
-        private NAudio.Wave.DirectSoundOut output = null;
+        private Mp3FileReader wavefile = null;
+        private WaveOut output = null;
         private int counter = 1;
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //Opening file
             OpenFileDialog open = new OpenFileDialog();
-            open.Filter = "Wave file(*.wav)|*.wav;";
+            open.Filter = "mp3 file(*.mp3)|*.mp3;";
 
             if (open.ShowDialog() != DialogResult.OK)
                 return;
 
             DisposeWave();
 
-            wavefile = new NAudio.Wave.WaveFileReader(open.FileName);
-            output = new NAudio.Wave.DirectSoundOut();
-            output.Init(new NAudio.Wave.WaveChannel32(wavefile));
-            output.Play();
+            //Initialize
+            output = new WaveOut();
+            output.NumberOfBuffers = 2;
+            output.DesiredLatency = 100;
+            output.Volume = (float)volumeBar.Value/100;
+            
+
+            wavefile = new Mp3FileReader(open.FileName);
+            output.Init(wavefile);
+            
 
             counter++;
 
@@ -44,24 +52,30 @@ namespace waveFile
             //waveViewer1.StartPosition = 40000;
             //waveViewer1.WaveStream = new NAudio.Wave.WaveFileReader(open.FileName);
 
+
+            //Frequency visualizer
+            
             chart1.Series.Add("wave"+counter);
             chart1.Series["wave"+counter].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
             chart1.Series["wave"+counter].ChartArea = "ChartArea1";
 
-            NAudio.Wave.WaveChannel32 wave = new NAudio.Wave.WaveChannel32(new NAudio.Wave.WaveFileReader(open.FileName));
+            WaveChannel32 wave = new WaveChannel32(new Mp3FileReader(open.FileName));
 
-            byte[] buffer = new byte[16384];
+            byte[] buffer = new byte[8384];
             int read = 0;
 
             while(wave.Position < wave.Length)
             {
-                read = wave.Read(buffer, 0, 16384);
+                read = wave.Read(buffer, 0, 8384);
 
                 for (int i = 0; i < read / 4; i++)
                 {
                     chart1.Series["wave"+counter].Points.Add(BitConverter.ToSingle(buffer, i * 4));
                 }
             }
+
+            //Sound output
+            output.Play();
         }
 
         private void pauseButton_Click(object sender, EventArgs e)
@@ -93,9 +107,14 @@ namespace waveFile
             }
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void volumeBar1_Scroll(object sender, ScrollEventArgs e)
         {
-
+            if (output != null)
+            {
+                output.Volume = (float)volumeBar.Value/100;
+            }
         }
+
+
     }
 }
