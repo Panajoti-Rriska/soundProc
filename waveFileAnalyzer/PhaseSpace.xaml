@@ -1,0 +1,10 @@
+﻿<UserControl x:Class="NAudioWpfDemo.PhaseSpace"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Height="143" Width="163">
+    <Canvas Background="Black" RenderTransformOrigin="0.485,0.526">
+        <Polyline x:Name="polyline1" Stroke="Yellow" StrokeThickness="1"/>
+    </Canvas>
+</UserControl>
