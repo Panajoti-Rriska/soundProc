@@ -18,7 +18,7 @@ namespace waveFile
             
         }
 
-        private Mp3FileReader wavefile = null;
+        private WaveFileReader wavefile = null;
         private WaveOut output = null;
         private int counter = 1;
 
@@ -26,7 +26,7 @@ namespace waveFile
         {
             //Opening file
             OpenFileDialog open = new OpenFileDialog();
-            open.Filter = "mp3 file(*.mp3)|*.mp3;";
+            open.Filter = "wav file(*.wav)|*.wav;";
 
             if (open.ShowDialog() != DialogResult.OK)
                 return;
@@ -40,7 +40,7 @@ namespace waveFile
             output.Volume = (float)volumeBar.Value/100;
             
 
-            wavefile = new Mp3FileReader(open.FileName);
+            wavefile = new WaveFileReader(open.FileName);
             output.Init(wavefile);
             
 
@@ -56,10 +56,10 @@ namespace waveFile
             //Frequency visualizer
             
             chart1.Series.Add("wave"+counter);
-            chart1.Series["wave"+counter].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            chart1.Series["wave"+counter].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastPoint;
             chart1.Series["wave"+counter].ChartArea = "ChartArea1";
 
-            WaveChannel32 wave = new WaveChannel32(new Mp3FileReader(open.FileName));
+            WaveChannel32 wave = new WaveChannel32(new WaveFileReader(open.FileName));
 
             byte[] buffer = new byte[8384];
             int read = 0;
@@ -78,6 +78,8 @@ namespace waveFile
             output.Play();
         }
 
+
+
         private void pauseButton_Click(object sender, EventArgs e)
         {
             if (output != null)
@@ -88,7 +90,7 @@ namespace waveFile
                     output.Play();
             }
         }
-
+         
         private void DisposeWave()
         {
             if (output != null)

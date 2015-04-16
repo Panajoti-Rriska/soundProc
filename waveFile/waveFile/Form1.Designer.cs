@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             this.openWavButton = new System.Windows.Forms.Button();
             this.pauseButton = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -42,7 +42,7 @@
             this.openWavButton.Name = "openWavButton";
             this.openWavButton.Size = new System.Drawing.Size(159, 45);
             this.openWavButton.TabIndex = 0;
-            this.openWavButton.Text = "OpenMp3File";
+            this.openWavButton.Text = "OpenWavFile";
             this.openWavButton.UseVisualStyleBackColor = true;
             this.openWavButton.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -58,8 +58,8 @@
             // 
             // chart1
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea3);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Right;
             this.chart1.Location = new System.Drawing.Point(246, 0);
             this.chart1.Name = "chart1";
