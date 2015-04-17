@@ -62,7 +62,7 @@
       <HintPath>..\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
+      <HintPath>packages\NUnit.2.5.10.11092\tools\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="nunit.mocks">
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
@@ -113,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="PhaseSpace.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="PolygonWaveFormControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -151,6 +155,7 @@
     <Compile Include="AudioPlaybackDemo\AudioPlaybackDemoView.xaml.cs">
       <DependentUpon>AudioPlaybackDemoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AudioPlaybackDemo\PhaseSpaceAnalyzerVizualizations.cs" />
     <Compile Include="AudioPlaybackDemo\PolylineWaveFormVisualization.cs" />
     <Compile Include="AudioPlaybackDemo\IVisualizationPlugin.cs" />
     <Compile Include="AudioPlaybackDemo\PolygonWaveFormVisualization.cs" />
@@ -173,6 +178,9 @@
     <Compile Include="AudioPlaybackDemo\AudioPlaybackViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="ModuleBase.cs" />
+    <Compile Include="PhaseSpace.xaml.cs">
+      <DependentUpon>PhaseSpace.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PolygonWaveFormControl.xaml.cs">
       <DependentUpon>PolygonWaveFormControl.xaml</DependentUpon>
     </Compile>

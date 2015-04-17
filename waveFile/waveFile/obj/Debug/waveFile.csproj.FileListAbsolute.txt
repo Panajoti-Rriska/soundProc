@@ -35,3 +35,13 @@ C:\Users\Maciej\Documents\soundProc\waveFile\waveFile\obj\Debug\waveFile.Propert
 C:\Users\Maciej\Documents\soundProc\waveFile\waveFile\obj\Debug\waveFile.csproj.GenerateResource.Cache
 C:\Users\Maciej\Documents\soundProc\waveFile\waveFile\obj\Debug\waveFile.exe
 C:\Users\Maciej\Documents\soundProc\waveFile\waveFile\obj\Debug\waveFile.pdb
+C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\bin\Debug\waveFile.exe.config
+C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\bin\Debug\waveFile.exe
+C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\bin\Debug\waveFile.pdb
+C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\obj\Debug\waveFile.csprojResolveAssemblyReference.cache
+C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\obj\Debug\waveFile.Form1.resources
+C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\obj\Debug\waveFile.Properties.Resources.resources
+C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\obj\Debug\waveFile.csproj.GenerateResource.Cache
+C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\obj\Debug\waveFile.exe
+C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\obj\Debug\waveFile.pdb
+C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\obj\Debug\waveFile.Form2.resources
