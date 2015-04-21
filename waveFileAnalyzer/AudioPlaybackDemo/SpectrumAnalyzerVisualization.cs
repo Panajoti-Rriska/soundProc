@@ -29,6 +29,7 @@ namespace NAudioWpfDemo.AudioPlaybackDemo
 
         public void OnFftCalculated(NAudio.Dsp.Complex[] result)
         {
+           
             spectrumAnalyser.Update(result);
         }
     }

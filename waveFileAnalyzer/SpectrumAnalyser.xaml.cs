@@ -86,13 +86,14 @@ namespace NAudioWpfDemo
         private void AddResult(int index, double power)
         {
             Point p = new Point(CalculateXPos(index), power);
+           // Console.WriteLine(p.Y + " db values\n");
             if (index >= polyline1.Points.Count)
             {
                 polyline1.Points.Add(p);
             }
             else
             {
-                polyline1.Points[index] = p;
+               polyline1.Points[index] = p;
             }
         }
 

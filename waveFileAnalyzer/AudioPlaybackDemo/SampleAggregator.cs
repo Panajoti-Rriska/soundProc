@@ -81,6 +81,8 @@ namespace NAudioWpfDemo
                 }
                 Reset();
             }
+
+           
         }
 
         public WaveFormat WaveFormat { get { return source.WaveFormat; } }
