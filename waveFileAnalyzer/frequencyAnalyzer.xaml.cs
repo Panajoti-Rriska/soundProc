@@ -32,15 +32,9 @@ namespace NAudioWpfDemo
         private int updateCount;
         private List<double> dbListX = new List<double>();
         private List<double> dbListY = new List<double>();
-
-        EnumerableDataSource<double> _edsSPP ;
-        private bool didIt = false;
+        private List<Point> pointList = new List<Point>();
         public frequencyAnalyzer()
         {
-            IPointDataSource _eds = null;
-            //ah weird one...should consider y axis as well
-            _edsSPP = new EnumerableDataSource<double>(dbListX);
-
             InitializeComponent();
             CalculateXScale();
             this.SizeChanged += SpectrumAnalyser_SizeChanged;
@@ -67,26 +61,21 @@ namespace NAudioWpfDemo
         {
             //Magnitude 
             double intensityDB = 10 * Math.Log10(Math.Sqrt(c.X * c.X + c.Y * c.Y));
-
             double minDB = -90;
 
             //Checking if its below minimum
-            if (intensityDB < minDB)
-            {
-                intensityDB = minDB;
-            }
-
-            double percent = intensityDB / minDB;
+            if (intensityDB < minDB) intensityDB = minDB;
+            double percent = intensityDB; /// minDB;
             // we want 0dB to be at the top (i.e. yPos = 0)
-            double yPos = percent * this.ActualHeight;
+
+            double yPos = percent;//* this.ActualHeight;
             return yPos;    
         }
 
         private void addResultsToGraph(int index, double power)
-        {
-
-            
+        {          
             Point p = new Point(calculateFrequency(index), power);
+            pointList.Add(p);
             dbListX.Add(p.X);
             dbListY.Add(p.Y);
         }
@@ -101,42 +90,49 @@ namespace NAudioWpfDemo
                 return;
             }
 
-            if (fftResults.Length / 2 != bins)
-            {
-                this.bins = fftResults.Length / 2;
-                CalculateXScale();
-            }
-
-            for (int n = 0; n < fftResults.Length / 2; n += binsPerPoint)
-            {
-                // averaging out bins
-                double db = 0;
-                for (int b = 0; b < binsPerPoint; b++)
-                {
-                    db += calculateDB(fftResults[n + b]);
-                }
-                addResultsToGraph(n / binsPerPoint, db / binsPerPoint);
-            }
 
             //End of song
             if (updateCount >= 42)
             {
-                var frequencyDataSource = new EnumerableDataSource<double>(dbListX);
-                frequencyDataSource.SetXMapping(x => x);
+                //Calculate fft results at the end of the sound file
 
-                var decibelOpenDataSource = new EnumerableDataSource<double>(dbListY);
+                if (fftResults.Length / 2 != bins)
+                {
+                    this.bins = fftResults.Length / 2;
+                    CalculateXScale();
+                }
+
+                for (int n = 0; n < fftResults.Length / 2; n += binsPerPoint)
+                {
+                    // averaging out bins
+                    double db = 2;
+                    for (int b = 0; b < binsPerPoint; b++)
+                    {
+                        db += calculateDB(fftResults[n + b]);
+                    }
+                    addResultsToGraph(n / binsPerPoint, db / binsPerPoint);
+                }
+
+                var frequencyDataSource = new EnumerableDataSource<Point>(pointList);
+                frequencyDataSource.SetXMapping(x => x.X);
+                frequencyDataSource.SetYMapping(y => y.Y);
+
+                frequencyChart.AddLineGraph(frequencyDataSource, Colors.Blue, 2, "frequency");
+
+              /*  var decibelOpenDataSource = new EnumerableDataSource<double>(dbListY);
                 decibelOpenDataSource.SetYMapping(x => x);
 
                 CompositeDataSource compositeDataSource1 = new
-                 CompositeDataSource(frequencyDataSource, decibelOpenDataSource);
+                CompositeDataSource(frequencyDataSource, decibelOpenDataSource);
 
                 frequencyChart.AddLineGraph(compositeDataSource1,
                  new Pen(Brushes.Blue, 1),
-                 new CirclePointMarker { Size = 0.5, Fill = Brushes.Blue },
+                 new CirclePointMarker { Size = 0.1, Fill = Brushes.Blue },
                  new PenDescription("Line"));
 
-                frequencyChart.FitToView();
-                updateCount = 0;
+                frequencyChart.FitToView();*/
+
+                //updateCount = 0;
             }
         }
     }
