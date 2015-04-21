@@ -89,18 +89,6 @@ namespace NAudioWpfDemo
             Point p = new Point(calculateFrequency(index), power);
             dbListX.Add(p.X);
             dbListY.Add(p.Y);
-
-
-          /*  
-            _edsSPP.SetXMapping(x => p.X);
-            _edsSPP.SetYMapping(y => p.Y);
-
-            frequencyChart.AddLineGraph(_edsSPP,
-        new Pen(Brushes.Blue, 2),
-        new CirclePointMarker { Size = 10.0, Fill = Brushes.Red },
-        new PenDescription("Number bugs open"));
-
-            frequencyChart.Viewport.FitToView();*/
         }
 
 
@@ -133,12 +121,11 @@ namespace NAudioWpfDemo
             //End of song
             if (updateCount >= 42)
             {
-                Console.WriteLine("end of fucker");
                 var frequencyDataSource = new EnumerableDataSource<double>(dbListX);
                 frequencyDataSource.SetXMapping(x => x);
 
                 var decibelOpenDataSource = new EnumerableDataSource<double>(dbListY);
-                decibelOpenDataSource.SetYMapping(y => y);
+                decibelOpenDataSource.SetYMapping(x => x);
 
                 CompositeDataSource compositeDataSource1 = new
                  CompositeDataSource(frequencyDataSource, decibelOpenDataSource);
@@ -146,7 +133,7 @@ namespace NAudioWpfDemo
                 frequencyChart.AddLineGraph(compositeDataSource1,
                  new Pen(Brushes.Blue, 1),
                  new CirclePointMarker { Size = 0.5, Fill = Brushes.Blue },
-                 new PenDescription("FUCKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
+                 new PenDescription("Line"));
 
                 frequencyChart.FitToView();
                 updateCount = 0;
