@@ -46,7 +46,7 @@ namespace NAudioWpfDemo
         //x scale of the graph
         private void CalculateXScale()
         {
-            this.xScale = (44100 / bins);
+            this.xScale = (samplingFrequency / bins);
         }
 
         void SpectrumAnalyser_SizeChanged(object sender, SizeChangedEventArgs e)
