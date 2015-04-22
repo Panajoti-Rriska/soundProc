@@ -26,7 +26,7 @@ namespace NAudioWpfDemo
     /// </summary>
     public partial class frequencyAnalyzer : UserControl
     {
-        private double xScale = 43;
+        private double xScale = 0;
         private int bins = 512; // guess a 1024 size FFT, bins is half FFT size
         private const int binsPerPoint = 2;
         private const int samplingFrequency = 44100;
@@ -34,8 +34,11 @@ namespace NAudioWpfDemo
         private int updateCount;
         private List<double> dbListX = new List<double>();
         private List<double> dbListY = new List<double>();
+        private Dictionary<double, double> dataDictionary = new Dictionary<double, double>();
         private List<Point> pointList = new List<Point>();
         private List<double> frequenciesList = new List<double>();
+        private List<double> peaksList = new List<double>();
+
         public frequencyAnalyzer()
         {
             InitializeComponent();
@@ -82,6 +85,8 @@ namespace NAudioWpfDemo
             Point p = new Point(calculateFrequency(index), power);
 
             pointList.Add(p);
+            //As key we use dB and value we use Hz
+            dataDictionary.Add(p.Y, p.X);
             dbListX.Add(p.X);
             dbListY.Add(p.Y);
 
@@ -89,16 +94,41 @@ namespace NAudioWpfDemo
 
         private void showMeThePicks()
         {
-            var result = dbListY.OrderByDescending(x => x);
-                
-            foreach(var item in result)
+            //var result = dbListY.OrderByDescending(x => x);
+            
+            //Finding peaks
+            for (int i = 1; i < pointList.Count/2; i++)
             {
-                Console.WriteLine(item);
+                if (Math.Floor(dbListY[i - 1]) < Math.Floor(dbListY[i]) && Math.Floor(dbListY[i + 1]) < Math.Floor(dbListY[i]))
+                {
+                    //threshold value
+                    if (dbListY[i] > -50)
+                    {
+                        //var flooredDecibel = Math.Floor(dbListY[i]);
+                        peaksList.Add(dbListY[i]);
+                        Console.WriteLine("Possible edges" + dbListY[i]);
+                    }
+                }
             }
-                
+
+            for( int i = 0; i < peaksList.Count-1; i+=2)
+            {
+                //the pairs
+                var frequencyDifference = dataDictionary[peaksList[i]] - dataDictionary[peaksList[i + 1]];
+                Console.WriteLine("Edges compared " + peaksList[i] + " " + peaksList[i + 1]);
+            }
+
+            //
+             /*   foreach (var item in result)
+                {
+                    if (dataDictionary.ContainsKey(item))
+                    {
+                        double hzValue = dataDictionary[item];
+                        Console.WriteLine(hzValue + " Hz " + "dp " + item);
+                    }
+                }*/
                 //Console.WriteLine(pointList[i].X + " Frequencies");
-                //Console.WriteLine(pointList[i].Y + " DB");
-     
+                //Console.WriteLine(pointList[i].Y + " DB");     
         }
 
 
