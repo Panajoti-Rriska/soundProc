@@ -38,6 +38,8 @@ namespace NAudioWpfDemo
         private List<Point> pointList = new List<Point>();
         private List<double> frequenciesList = new List<double>();
         private List<double> peaksList = new List<double>();
+        private List<double> frequenciesDifferenciesList = new List<double>();
+
 
         public frequencyAnalyzer()
         {
@@ -111,13 +113,32 @@ namespace NAudioWpfDemo
                 }
             }
 
+            //Check the difference between pair peak frequencies and find the median which is the fundamental frequency
             for( int i = 0; i < peaksList.Count-1; i+=2)
             {
                 //the pairs
-                var frequencyDifference = dataDictionary[peaksList[i]] - dataDictionary[peaksList[i + 1]];
-                Console.WriteLine("Edges compared " + peaksList[i] + " " + peaksList[i + 1]);
+                var frequencyDifferences =Math.Abs(dataDictionary[peaksList[i]] - dataDictionary[peaksList[i + 1]]);
+                frequenciesDifferenciesList.Add(frequencyDifferences);
+                Console.WriteLine("Edges compared " + peaksList[i] + " " + peaksList[i + 1] +" with difference of " + frequencyDifferences);
             }
 
+            //Sort the array and find median which is the average of middle values
+            if(frequenciesDifferenciesList.Count != 0)
+            {
+                frequenciesDifferenciesList.Sort();
+                int size = frequenciesDifferenciesList.Count;
+                int mid = size / 2;
+                double median = 0;
+                if(size % 2 == 0)
+                {
+                    median = (frequenciesDifferenciesList[mid] + frequenciesDifferenciesList[mid - 1]) / 2.0;
+                }else
+                {
+                    median = frequenciesDifferenciesList[mid];
+                }
+
+                Console.WriteLine("The median is " + median);
+            }
             //
              /*   foreach (var item in result)
                 {
@@ -142,7 +163,7 @@ namespace NAudioWpfDemo
             }
 
 
-            //End of song
+            //Last frame
             if (updateCount >= 42)
             {
                 //Calculate fft results at the end of the sound file
@@ -164,6 +185,7 @@ namespace NAudioWpfDemo
                     addResultsToGraph(n / binsPerPoint, db / binsPerPoint);
                 }
 
+                //Draw the graph
                 var frequencyDataSource = new EnumerableDataSource<Point>(pointList);
                 frequencyDataSource.SetXMapping(x => x.X);
                 frequencyDataSource.SetYMapping(y => y.Y);
