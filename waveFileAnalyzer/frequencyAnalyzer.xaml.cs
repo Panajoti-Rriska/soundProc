@@ -26,24 +26,27 @@ namespace NAudioWpfDemo
     /// </summary>
     public partial class frequencyAnalyzer : UserControl
     {
-        private double xScale = 200;
+        private double xScale = 43;
         private int bins = 512; // guess a 1024 size FFT, bins is half FFT size
         private const int binsPerPoint = 2;
+        private const int samplingFrequency = 44100;
+
         private int updateCount;
         private List<double> dbListX = new List<double>();
         private List<double> dbListY = new List<double>();
         private List<Point> pointList = new List<Point>();
+        private List<double> frequenciesList = new List<double>();
         public frequencyAnalyzer()
         {
             InitializeComponent();
             CalculateXScale();
-            this.SizeChanged += SpectrumAnalyser_SizeChanged;
+            //this.SizeChanged += SpectrumAnalyser_SizeChanged;
         }
 
         //x scale of the graph
         private void CalculateXScale()
         {
-            this.xScale = this.ActualWidth / (bins / binsPerPoint);
+            this.xScale = (44100 / bins);
         }
 
         void SpectrumAnalyser_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -61,15 +64,17 @@ namespace NAudioWpfDemo
         {
             //Magnitude 
             double intensityDB = 10 * Math.Log10(Math.Sqrt(c.X * c.X + c.Y * c.Y));
+            frequenciesList.Add(intensityDB);
             double minDB = -90;
 
             //Checking if its below minimum
             if (intensityDB < minDB) intensityDB = minDB;
-            double percent = intensityDB; /// minDB;
+           // double percent = intensityDB; /// minDB;
             // we want 0dB to be at the top (i.e. yPos = 0)
 
-            double yPos = percent;//* this.ActualHeight;
-            return yPos;    
+            //double yPos = percent;//* this.ActualHeight;
+            //return yPos;
+            return intensityDB;
         }
 
         private void addResultsToGraph(int index, double power)
@@ -105,7 +110,7 @@ namespace NAudioWpfDemo
                 for (int n = 0; n < fftResults.Length / 2; n += binsPerPoint)
                 {
                     // averaging out bins
-                    double db = 2;
+                    double db = 1;
                     for (int b = 0; b < binsPerPoint; b++)
                     {
                         db += calculateDB(fftResults[n + b]);
@@ -118,7 +123,7 @@ namespace NAudioWpfDemo
                 frequencyDataSource.SetYMapping(y => y.Y);
 
                 frequencyChart.AddLineGraph(frequencyDataSource, Colors.Blue, 2, "frequency");
-
+                Console.WriteLine("This is the max db or whatever is called "+frequenciesList.Max());
               /*  var decibelOpenDataSource = new EnumerableDataSource<double>(dbListY);
                 decibelOpenDataSource.SetYMapping(x => x);
 
