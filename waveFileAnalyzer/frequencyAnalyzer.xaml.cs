@@ -80,9 +80,25 @@ namespace NAudioWpfDemo
         private void addResultsToGraph(int index, double power)
         {          
             Point p = new Point(calculateFrequency(index), power);
+
             pointList.Add(p);
             dbListX.Add(p.X);
             dbListY.Add(p.Y);
+
+        }
+
+        private void showMeThePicks()
+        {
+            var result = dbListY.OrderByDescending(x => x);
+                
+            foreach(var item in result)
+            {
+                Console.WriteLine(item);
+            }
+                
+                //Console.WriteLine(pointList[i].X + " Frequencies");
+                //Console.WriteLine(pointList[i].Y + " DB");
+     
         }
 
 
@@ -124,6 +140,8 @@ namespace NAudioWpfDemo
 
                 frequencyChart.AddLineGraph(frequencyDataSource, Colors.Blue, 2, "frequency");
                 Console.WriteLine("This is the max db or whatever is called "+frequenciesList.Max());
+
+                showMeThePicks();
               /*  var decibelOpenDataSource = new EnumerableDataSource<double>(dbListY);
                 decibelOpenDataSource.SetYMapping(x => x);
 
