@@ -3,18 +3,42 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "waveFileAnalyzer", "..\waveFileAnalyzer\waveFileAnalyzer.csproj", "{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "waveFileAnalyzer", "waveFileAnalyzer.csproj", "{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "waveFile", "..\waveFile\waveFile\waveFile.csproj", "{3E82817E-B947-4940-8807-D4828B52E3D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}.Release|ARM.ActiveCfg = Release|Any CPU
+		{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}.Release|x64.ActiveCfg = Release|Any CPU
+		{A7B74F85-D353-4ED4-A321-E6E4AD4D7D32}.Release|x86.ActiveCfg = Release|Any CPU
+		{3E82817E-B947-4940-8807-D4828B52E3D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E82817E-B947-4940-8807-D4828B52E3D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E82817E-B947-4940-8807-D4828B52E3D6}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3E82817E-B947-4940-8807-D4828B52E3D6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3E82817E-B947-4940-8807-D4828B52E3D6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3E82817E-B947-4940-8807-D4828B52E3D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E82817E-B947-4940-8807-D4828B52E3D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E82817E-B947-4940-8807-D4828B52E3D6}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3E82817E-B947-4940-8807-D4828B52E3D6}.Release|x64.ActiveCfg = Release|Any CPU
+		{3E82817E-B947-4940-8807-D4828B52E3D6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

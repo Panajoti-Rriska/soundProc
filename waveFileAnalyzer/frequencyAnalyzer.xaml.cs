@@ -30,6 +30,7 @@ namespace NAudioWpfDemo
         private int bins = 512; // guess a 1024 size FFT, bins is half FFT size
         private const int binsPerPoint = 2;
         private const int samplingFrequency = 44100;
+        private bool calculated = false;
 
         private int updateCount;
         private List<double> dbListX = new List<double>();
@@ -43,6 +44,7 @@ namespace NAudioWpfDemo
 
         public frequencyAnalyzer()
         {
+            calculated = false;
             InitializeComponent();
             CalculateXScale();
             //this.SizeChanged += SpectrumAnalyser_SizeChanged;
@@ -63,6 +65,7 @@ namespace NAudioWpfDemo
         {
             if (bin == 0) return 0;
             return bin * xScale; 
+            
         }
 
         private double calculateDB(Complex c)
@@ -71,7 +74,6 @@ namespace NAudioWpfDemo
             double intensityDB = 10 * Math.Log10(Math.Sqrt(c.X * c.X + c.Y * c.Y));
             frequenciesList.Add(intensityDB);
             double minDB = -90;
-
             //Checking if its below minimum
             if (intensityDB < minDB) intensityDB = minDB;
            // double percent = intensityDB; /// minDB;
@@ -79,6 +81,7 @@ namespace NAudioWpfDemo
 
             //double yPos = percent;//* this.ActualHeight;
             //return yPos;
+           // return intensityDB;
             return intensityDB;
         }
 
@@ -99,7 +102,7 @@ namespace NAudioWpfDemo
             //var result = dbListY.OrderByDescending(x => x);
             
             //Finding peaks
-            for (int i = 1; i < pointList.Count/2; i++)
+            for (int i = 1; i < pointList.Count; i++)
             {
                 if (Math.Floor(dbListY[i - 1]) < Math.Floor(dbListY[i]) && Math.Floor(dbListY[i + 1]) < Math.Floor(dbListY[i]))
                 {
@@ -119,7 +122,7 @@ namespace NAudioWpfDemo
                 //the pairs
                 var frequencyDifferences =Math.Abs(dataDictionary[peaksList[i]] - dataDictionary[peaksList[i + 1]]);
                 frequenciesDifferenciesList.Add(frequencyDifferences);
-                Console.WriteLine("Edges compared " + peaksList[i] + " " + peaksList[i + 1] +" with difference of " + frequencyDifferences);
+                Console.WriteLine("Peaks compared " + peaksList[i] + " " + peaksList[i + 1] +" with difference of " + frequencyDifferences);
             }
 
             //Sort the array and find median which is the average of middle values
@@ -139,17 +142,6 @@ namespace NAudioWpfDemo
 
                 Console.WriteLine("The median is " + median);
             }
-            //
-             /*   foreach (var item in result)
-                {
-                    if (dataDictionary.ContainsKey(item))
-                    {
-                        double hzValue = dataDictionary[item];
-                        Console.WriteLine(hzValue + " Hz " + "dp " + item);
-                    }
-                }*/
-                //Console.WriteLine(pointList[i].X + " Frequencies");
-                //Console.WriteLine(pointList[i].Y + " DB");     
         }
 
 
@@ -162,9 +154,7 @@ namespace NAudioWpfDemo
                 return;
             }
 
-
-            //Last frame
-            if (updateCount >= 42)
+            if (!calculated )
             {
                 //Calculate fft results at the end of the sound file
 
@@ -191,23 +181,11 @@ namespace NAudioWpfDemo
                 frequencyDataSource.SetYMapping(y => y.Y);
 
                 frequencyChart.AddLineGraph(frequencyDataSource, Colors.Blue, 2, "frequency");
-                Console.WriteLine("This is the max db or whatever is called "+frequenciesList.Max());
+                Console.WriteLine("This is the max db or whatever is called " + frequenciesList.Max());
 
                 showMeThePicks();
-              /*  var decibelOpenDataSource = new EnumerableDataSource<double>(dbListY);
-                decibelOpenDataSource.SetYMapping(x => x);
-
-                CompositeDataSource compositeDataSource1 = new
-                CompositeDataSource(frequencyDataSource, decibelOpenDataSource);
-
-                frequencyChart.AddLineGraph(compositeDataSource1,
-                 new Pen(Brushes.Blue, 1),
-                 new CirclePointMarker { Size = 0.1, Fill = Brushes.Blue },
-                 new PenDescription("Line"));
-
-                frequencyChart.FitToView();*/
-
-                //updateCount = 0;
+               // updateCount = 0;
+                calculated = true;
             }
         }
     }

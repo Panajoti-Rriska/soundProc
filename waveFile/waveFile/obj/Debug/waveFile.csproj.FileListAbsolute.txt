@@ -45,3 +45,4 @@ C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\obj\Debug\waveFile.csp
 C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\obj\Debug\waveFile.exe
 C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\obj\Debug\waveFile.pdb
 C:\Users\Maciek\Desktop\sound\soundProc\waveFile\waveFile\obj\Debug\waveFile.Form2.resources
+C:\Users\panoslennon\Documents\Porgramming Stuff\C#\soundProc\waveFile\waveFile\obj\Debug\waveFile.Form2.resources
