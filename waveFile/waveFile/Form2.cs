@@ -43,7 +43,7 @@ namespace waveFile
 
             for (int d = 2; d <= dim; d++)
             {
-                points_dim = CreateDimensionList(points_original, k);
+                points_dim = CreateDimensionList(points_original, k*(dim-1));
 
                 for (int i = start_point; i < end_point; i += 2)
                 {
@@ -70,11 +70,6 @@ namespace waveFile
                         }
                         else break;
                     }
-                }
-
-                points_original.Clear();
-                foreach(float point in points_dim){
-                    points_original.Add(point);
                 }
                 points_dim.Clear();
             }
