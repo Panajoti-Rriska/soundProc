@@ -25,7 +25,6 @@ namespace waveFile
         private int dim = 2;
 
         List<float> points_original = new List<float>();
-        List<float> points_obtained = new List<float>();
 
         NAudio.Wave.WaveChannel32 wave;
 
@@ -48,7 +47,6 @@ namespace waveFile
             chart1.Series["wave" + counter].ChartArea = "ChartArea1";
 
             points_original.Clear();
-            points_obtained.Clear();
 
             wave = new NAudio.Wave.WaveChannel32(new NAudio.Wave.WaveFileReader(open.FileName));
 
@@ -74,24 +72,13 @@ namespace waveFile
 
         private void drawChartButton_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < points_original.Count; i++)
-            {
-                if (i - k >= 0)
-                {
-                    points_obtained.Add(points_original.ElementAt(i - k));
-                }
-                if (i - k < 0)
-                {
-                    points_obtained.Add(points_original.ElementAt(points_original.Count + (i - k)));
-                }
-
-            }
-
             start_point = int.Parse(textBox3.Text);
             end_point = int.Parse(textBox2.Text);
             k = int.Parse(textBox1.Text);
             min_dist = float.Parse(textBox4.Text);
-            Form2 graph = new Form2(points_obtained, points_original,start_point,end_point,k,min_dist, dim);
+            dim = int.Parse(textBox5.Text);
+            
+            Form2 graph = new Form2(points_original,start_point,end_point,k,min_dist, dim);
             graph.Show();
         }
     }

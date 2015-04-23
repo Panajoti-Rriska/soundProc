@@ -130,11 +130,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 235);
+            this.label4.Location = new System.Drawing.Point(10, 235);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(54, 13);
+            this.label4.Size = new System.Drawing.Size(51, 13);
             this.label4.TabIndex = 10;
-            this.label4.Text = "max dist =";
+            this.label4.Text = "min dist =";
             // 
             // textBox4
             // 
