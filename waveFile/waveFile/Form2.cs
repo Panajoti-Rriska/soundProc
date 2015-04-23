@@ -32,13 +32,11 @@ namespace waveFile
             this.min_dist = min_dist;
             this.dim = dim;
 
-            double dist = 0;
-            double dist_x = 0;
+            List<double> distances = new List<double>();
 
-            for (int i = start_point; i < end_point; i += 2)
+            foreach (float i in points_original)
             {
-                if (Math.Abs(points_original.ElementAt(i)) > Math.Abs(points_original.ElementAt(i + 2))) { dist = Math.Abs(points_original.ElementAt(i)) - Math.Abs(points_original.ElementAt(i + 2)); }
-                else { dist = Math.Abs(points_original.ElementAt(i + 1)) - Math.Abs(points_original.ElementAt(i)); }
+                distances.Add(0);
             }
 
             for (int d = 2; d <= dim; d++)
@@ -47,21 +45,25 @@ namespace waveFile
 
                 for (int i = start_point; i < end_point; i += 2)
                 {
-                    dist_x = dist;
-                    double dist_y = 0;
-                    
+                    double dist_x = 100;
+                    double dist_y = 100;
+
+                    if (Math.Abs(points_original.ElementAt(start_point)) > Math.Abs(points_original.ElementAt(i + 2))) { dist_x = Math.Abs(points_original.ElementAt(start_point)) - Math.Abs(points_original.ElementAt(i + 2)); }
+                    else { dist_x = Math.Abs(points_original.ElementAt(i + 1)) - Math.Abs(points_original.ElementAt(start_point)); }
                     double dist_x2 = dist_x * dist_x;
-                    if (Math.Abs(points_dim.ElementAt(i)) > Math.Abs(points_dim.ElementAt(i + 2))) { dist_y = Math.Abs(points_dim.ElementAt(i)) - Math.Abs(points_dim.ElementAt(i + 2)); }
-                    else { dist_y = Math.Abs(points_dim.ElementAt(i + 2)) - Math.Abs(points_dim.ElementAt(i)); }
+                    if (Math.Abs(points_dim.ElementAt(start_point)) > Math.Abs(points_dim.ElementAt(i + 2))) { dist_y = Math.Abs(points_dim.ElementAt(start_point)) - Math.Abs(points_dim.ElementAt(i + 2)); }
+                    else { dist_y = Math.Abs(points_dim.ElementAt(i + 2)) - Math.Abs(points_dim.ElementAt(start_point)); }
                     double dist_y2 = dist_y * dist_y;
 
-                    dist = Math.Sqrt(dist_x2 + dist_y2);
+                    double dist = Math.Sqrt(dist_x2 + dist_y2);
 
-                    
+                    distances[i] = Math.Sqrt((dist * dist) + (distances.ElementAt(i) * distances.ElementAt(i)));
+
                     if (d == dim)
                     {
-                        if (dist > min_dist)
+                        if (distances[i] > min_dist)
                         {
+                            Debug.WriteLine(dist);
                             chart1.Series["Series1"].Points.AddXY
                                             (points_original.ElementAt(i), points_dim.ElementAt(i));
                             chart1.Series["Series1"].ChartType =
