@@ -107,7 +107,7 @@ namespace NAudioWpfDemo
                 if (Math.Floor(dbListY[i - 1]) < Math.Floor(dbListY[i]) && Math.Floor(dbListY[i + 1]) < Math.Floor(dbListY[i]))
                 {
                     //threshold value
-                    if (dbListY[i] > -50)
+                    if (dbListY[i] > -40)
                     {
                         //var flooredDecibel = Math.Floor(dbListY[i]);
                         peaksList.Add(dbListY[i]);
