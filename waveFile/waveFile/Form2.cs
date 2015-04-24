@@ -36,7 +36,7 @@ namespace waveFile
 
             foreach (float i in points_original)
             {
-                distances.Add(0);
+                //distances.Add(0);
             }
 
             for (int d = 2; d <= dim; d++)
@@ -48,29 +48,51 @@ namespace waveFile
                     double dist_x = 100;
                     double dist_y = 100;
 
-                    if (Math.Abs(points_original.ElementAt(start_point)) > Math.Abs(points_original.ElementAt(i + 2))) { dist_x = Math.Abs(points_original.ElementAt(start_point)) - Math.Abs(points_original.ElementAt(i + 2)); }
-                    else { dist_x = Math.Abs(points_original.ElementAt(i + 1)) - Math.Abs(points_original.ElementAt(start_point)); }
+                    if ((points_original.ElementAt(start_point) < 0 && points_original.ElementAt(i + 2) < 0) || (points_original.ElementAt(start_point) > 0 && points_original.ElementAt(i + 2) > 0))
+                    {
+                        if (Math.Abs(points_original.ElementAt(start_point)) > Math.Abs(points_original.ElementAt(i + 2))) { dist_x = Math.Abs(points_original.ElementAt(start_point)) - Math.Abs(points_original.ElementAt(i + 2)); }
+                        else { dist_x = Math.Abs(points_original.ElementAt(i + 2)) - Math.Abs(points_original.ElementAt(start_point)); }
+                    }
+                    else
+                    {
+                        dist_x = Math.Abs(points_original.ElementAt(i + 2)) + Math.Abs(points_original.ElementAt(start_point));
+                    }
                     double dist_x2 = dist_x * dist_x;
-                    if (Math.Abs(points_dim.ElementAt(start_point)) > Math.Abs(points_dim.ElementAt(i + 2))) { dist_y = Math.Abs(points_dim.ElementAt(start_point)) - Math.Abs(points_dim.ElementAt(i + 2)); }
-                    else { dist_y = Math.Abs(points_dim.ElementAt(i + 2)) - Math.Abs(points_dim.ElementAt(start_point)); }
+
+                    if ((points_dim.ElementAt(start_point) < 0 && points_dim.ElementAt(i + 2) < 0) || (points_dim.ElementAt(start_point) > 0 && points_dim.ElementAt(i + 2) > 0))
+                    {
+                        if (Math.Abs(points_dim.ElementAt(start_point)) > Math.Abs(points_dim.ElementAt(i + 2))) { dist_y = Math.Abs(points_dim.ElementAt(start_point)) - Math.Abs(points_dim.ElementAt(i + 2)); }
+                        else { dist_y = Math.Abs(points_dim.ElementAt(i + 2)) - Math.Abs(points_dim.ElementAt(start_point)); }
+                    }
+                    else
+                    {
+                        dist_y = Math.Abs(points_dim.ElementAt(i + 2)) + Math.Abs(points_dim.ElementAt(start_point));
+                    }
                     double dist_y2 = dist_y * dist_y;
 
                     double dist = Math.Sqrt(dist_x2 + dist_y2);
 
-                    distances[i] = Math.Sqrt((dist * dist) + (distances.ElementAt(i) * distances.ElementAt(i)));
-
                     if (d == dim)
                     {
-                        if (distances[i] > min_dist)
+                        if (dist >= min_dist)
                         {
-                            Debug.WriteLine(dist);
+                            Debug.WriteLine("dist: " + dist);
                             chart1.Series["Series1"].Points.AddXY
                                             (points_original.ElementAt(i), points_dim.ElementAt(i));
                             chart1.Series["Series1"].ChartType =
                                     SeriesChartType.FastPoint;
                             chart1.Series["Series1"].Color = Color.Blue;
                         }
-                        else break;
+                        else
+                        {
+                            Debug.WriteLine("dist red: " + dist);
+                            chart1.Series["Series2"].Points.AddXY
+                                            (points_original.ElementAt(i), points_dim.ElementAt(i));
+                            chart1.Series["Series2"].ChartType =
+                                    SeriesChartType.FastPoint;
+                            chart1.Series["Series2"].Color = Color.Red;
+                            break;
+                        }
                     }
                 }
                 points_dim.Clear();
