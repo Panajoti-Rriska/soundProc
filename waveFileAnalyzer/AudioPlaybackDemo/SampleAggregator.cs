@@ -53,7 +53,7 @@ namespace NAudioWpfDemo
             count = 0;
             maxValue = minValue = 0;
         }
-
+        int pixie = 0;
         private void Add(float value)
         {
             if (PerformFFT && FftCalculated != null)
@@ -65,8 +65,20 @@ namespace NAudioWpfDemo
                 {
                     fftPos = 0;
                     // 1024 = 2^10
+                    pixie++;
+                //    Console.WriteLine("lalala" + pixie);
                     FastFourierTransform.FFT(true, m, fftBuffer);
                     FftCalculated(this, fftArgs);
+
+                    //Inverse FFT
+                   /* for (int i = 0; i<fftBuffer.Length; i++ )
+                    {
+                        fftBuffer[i].X = fftBuffer[i].X*10.0f;
+                    }
+                    FftCalculated(this, fftArgs);*/
+
+                    //FastFourierTransform.FFT(false, m, fftBuffer);
+                       
                 }
             }
 
@@ -93,8 +105,15 @@ namespace NAudioWpfDemo
 
             for (int n = 0; n < samplesRead; n+=channels)
             {
+              //  Console.WriteLine("N " + n);
                 Add(buffer[n+offset]);
+
+                if (pixie < 10)
+                {
+                    buffer[n + offset] = buffer[n + offset]*10.05f;
+                }
             }
+
             return samplesRead;
         }
     }

@@ -11,7 +11,16 @@
         <ListBox Grid.Column="0" 
 			SelectedItem="{Binding SelectedModule, Mode=TwoWay}">
             <TextBox Height="23" TextWrapping="Wrap" Text="TextBox" Width="120"/>
-            <EqualizationDemo:EqualizationDemoView/>
+            <EqualizationDemo:EqualizationDemoView Height="286" RenderTransformOrigin="0.5,0.5" Width="216">
+                <EqualizationDemo:EqualizationDemoView.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="-0.209"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="-0.496"/>
+                    </TransformGroup>
+                </EqualizationDemo:EqualizationDemoView.RenderTransform>
+            </EqualizationDemo:EqualizationDemoView>
         </ListBox>
         <ContentPresenter x:Name="contentPresenter" Grid.Column="1" 
 			Content="{Binding UserInterface}" />
