@@ -23,6 +23,7 @@ namespace waveFile
         private int end_point = 850;
         private float min_dist = 0;
         private int dim = 2;
+        private int frame = 20;
 
         List<float> points_original = new List<float>();
 
@@ -56,6 +57,8 @@ namespace waveFile
             while (wave.Position < wave.Length)
             {
                 read = wave.Read(buffer, 0, 16384);
+
+                
                 for (int i = 0; i < read / 4; i++)
                 {
                     chart1.Series["wave" + counter].Points.Add(BitConverter.ToSingle(buffer, i * 4));
@@ -77,8 +80,9 @@ namespace waveFile
             k = int.Parse(textBox1.Text);
             min_dist = float.Parse(textBox4.Text);
             dim = int.Parse(textBox5.Text);
+            frame = int.Parse(textBox6.Text);
             
-            Form2 graph = new Form2(points_original,start_point,end_point,k,min_dist, dim);
+            Form2 graph = new Form2(points_original,start_point,end_point,k,min_dist, dim, frame);
             graph.Show();
         }
     }

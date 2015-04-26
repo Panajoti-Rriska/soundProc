@@ -21,30 +21,40 @@ namespace waveFile
         private int k;
         private float min_dist;
         private int dim;
+        private int frame;
 
-        public Form2(List<float> points_original, int start_point, int end_point, int k, float min_dist, int dim)
+        private int frame_size = 1024;
+
+        List<float> getFrame(List<float> list, int frame, int frame_size)
+        {
+            List<float> temp = new List<float>();
+            for (int i = frame * frame_size; i < frame * frame_size + frame_size; i++)
+            {
+                temp.Add(list[i]);
+            }
+            return temp;
+        }      
+
+        public Form2(List<float> p_original, int start_point, int end_point, int k, float min_dist, int dim, int frame)
         {
             InitializeComponent();
-            this.points_original = points_original;
+
             this.start_point = start_point;
             this.end_point = end_point;
             this.k = k;
             this.min_dist = min_dist;
             this.dim = dim;
-
-            List<double> distances = new List<double>();
-
-            foreach (float i in points_original)
-            {
-                //distances.Add(0);
-            }
-
+            this.frame = frame;
+            this.points_original = getFrame(p_original, frame, frame_size);
+            
             for (int d = 2; d <= dim; d++)
             {
                 points_dim = CreateDimensionList(points_original, k*(dim-1));
 
                 for (int i = start_point; i < end_point; i += 2)
                 {
+                    if(i<points_dim.Count-2)
+                    {
                     double dist_x = 100;
                     double dist_y = 100;
 
@@ -94,6 +104,7 @@ namespace waveFile
                             break;
                         }
                     }
+                }
                 }
                 points_dim.Clear();
             }
