@@ -102,7 +102,7 @@ namespace NAudioWpfDemo
             //var result = dbListY.OrderByDescending(x => x);
             
             //Finding peaks
-            for (int i = 1; i < pointList.Count; i++)
+            for (int i = 1; i < pointList.Count-1; i++)
             {
                 if (Math.Floor(dbListY[i - 1]) < Math.Floor(dbListY[i]) && Math.Floor(dbListY[i + 1]) < Math.Floor(dbListY[i]))
                 {
@@ -111,7 +111,7 @@ namespace NAudioWpfDemo
                     {
                         //var flooredDecibel = Math.Floor(dbListY[i]);
                         peaksList.Add(dbListY[i]);
-                        Console.WriteLine("Possible edges" + dbListY[i]);
+                       // Console.WriteLine("Possible edges" + dbListY[i]);
                     }
                 }
             }
@@ -122,7 +122,7 @@ namespace NAudioWpfDemo
                 //the pairs
                 var frequencyDifferences =Math.Abs(dataDictionary[peaksList[i]] - dataDictionary[peaksList[i + 1]]);
                 frequenciesDifferenciesList.Add(frequencyDifferences);
-                Console.WriteLine("Peaks compared " + peaksList[i] + " " + peaksList[i + 1] +" with difference of " + frequencyDifferences);
+               // Console.WriteLine("Peaks compared " + peaksList[i] + " " + peaksList[i + 1] +" with difference of " + frequencyDifferences);
             }
 
             //Sort the array and find median which is the average of middle values
@@ -142,6 +142,14 @@ namespace NAudioWpfDemo
 
                 Console.WriteLine("The median is " + median);
             }
+
+            dbListX.Clear();
+            dbListY.Clear();
+            peaksList.Clear();
+            frequenciesDifferenciesList.Clear();
+            dataDictionary.Clear();
+            pointList.Clear();
+            frequenciesList.Clear();
         }
 
 
@@ -154,8 +162,8 @@ namespace NAudioWpfDemo
                 return;
             }
 
-            if (!calculated )
-            {
+           // if (!calculated )
+           // {
                 //Calculate fft results at the end of the sound file
 
                 if (fftResults.Length / 2 != bins)
@@ -181,12 +189,11 @@ namespace NAudioWpfDemo
                 frequencyDataSource.SetYMapping(y => y.Y);
 
                 frequencyChart.AddLineGraph(frequencyDataSource, Colors.Blue, 2, "frequency");
-                Console.WriteLine("This is the max db or whatever is called " + frequenciesList.Max());
 
                 showMeThePicks();
                // updateCount = 0;
                 calculated = true;
-            }
+           // }
         }
     }
 }

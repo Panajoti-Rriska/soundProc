@@ -101,17 +101,19 @@ namespace NAudioWpfDemo
         
         public int Read(float[] buffer, int offset, int count)
         {
+            //ISampleProvider read method
+            //4410 is if we divide our thang 44100
             var samplesRead = source.Read(buffer, offset, count);
 
             for (int n = 0; n < samplesRead; n+=channels)
             {
-              //  Console.WriteLine("N " + n);
                 Add(buffer[n+offset]);
 
-                if (pixie < 10)
+                //for the first 10 ms increase valume
+               /* if (pixie < 10)
                 {
-                    buffer[n + offset] = buffer[n + offset]*10.05f;
-                }
+                  //buffer[n + offset] = buffer[n + offset]*10.05f;
+                }*/
             }
 
             return samplesRead;
