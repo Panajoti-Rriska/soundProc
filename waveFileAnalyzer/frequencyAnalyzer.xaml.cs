@@ -37,10 +37,11 @@ namespace NAudioWpfDemo
         private List<double> dbListY = new List<double>();
         private Dictionary<double, double> dataDictionary = new Dictionary<double, double>();
         private List<Point> pointList = new List<Point>();
+        private List<Point> tempPointList = new List<Point>();
         private List<double> frequenciesList = new List<double>();
         private List<double> peaksList = new List<double>();
         private List<double> frequenciesDifferenciesList = new List<double>();
-
+       
 
         public frequencyAnalyzer()
         {
@@ -140,16 +141,20 @@ namespace NAudioWpfDemo
                     median = frequenciesDifferenciesList[mid];
                 }
 
-                Console.WriteLine("The median is " + median);
+                Console.WriteLine(median);
             }
 
-            dbListX.Clear();
-            dbListY.Clear();
-            peaksList.Clear();
-            frequenciesDifferenciesList.Clear();
-            dataDictionary.Clear();
-            pointList.Clear();
-            frequenciesList.Clear();
+            if (calculated)
+            {
+                dbListX.Clear();
+                dbListY.Clear();
+                peaksList.Clear();
+                frequenciesDifferenciesList.Clear();
+                dataDictionary.Clear();
+                pointList.Clear();
+                frequenciesList.Clear();
+            }
+              
         }
 
 
@@ -183,16 +188,24 @@ namespace NAudioWpfDemo
                     addResultsToGraph(n / binsPerPoint, db / binsPerPoint);
                 }
 
-                //Draw the graph
-                var frequencyDataSource = new EnumerableDataSource<Point>(pointList);
-                frequencyDataSource.SetXMapping(x => x.X);
-                frequencyDataSource.SetYMapping(y => y.Y);
-
-                frequencyChart.AddLineGraph(frequencyDataSource, Colors.Blue, 2, "frequency");
-
                 showMeThePicks();
+
+                //Draw the graph
+                if(!calculated)
+                {
+                    tempPointList.AddRange(pointList);
+                    var frequencyDataSource = new EnumerableDataSource<Point>(tempPointList);
+                    frequencyDataSource.SetXMapping(x => x.X);
+                    frequencyDataSource.SetYMapping(y => y.Y);
+
+                    frequencyChart.AddLineGraph(frequencyDataSource, Colors.Blue, 2, "frequency");
+                    calculated = true;
+                }
+               
                // updateCount = 0;
-                calculated = true;
+                
+
+              
            // }
         }
     }
