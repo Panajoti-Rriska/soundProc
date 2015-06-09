@@ -30,7 +30,13 @@ namespace SoundSynth
             InitializeComponent();
         }
 
-        private void StartSineWaveSound(float frequency)
+        private async Task StopSound(int duration)
+        {
+            await Task.Delay(duration);
+            this.StopWaveOut(waveOut);
+        }
+
+        private void StartSineWaveSound(float frequency, int duration)
         {
             if(waveOut == null)
             {
@@ -43,6 +49,7 @@ namespace SoundSynth
                 waveOut.Init(sineWaveProvide);
                               
                 waveOut.Play();
+                Task stopPlaying = this.StopSound(duration);
                 
             }else
             {
@@ -53,7 +60,7 @@ namespace SoundSynth
 
         }
 
-        private void stopMusic(WaveOut waveOut)
+        private void StopWaveOut(WaveOut waveOut)
         {
              waveOut.Stop();
              waveOut.Dispose();
@@ -62,47 +69,47 @@ namespace SoundSynth
 
         private void Button_Click(object sender, RoutedEventArgs e)
         { 
-            StartSineWaveSound(391.9f);
+            StartSineWaveSound(391.9f,400);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            StartSineWaveSound(329.6f);
+            StartSineWaveSound(329.6f,400);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            StartSineWaveSound(329.6f);
+            StartSineWaveSound(329.6f,400);
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            StartSineWaveSound(349.6f);
+            StartSineWaveSound(349.6f,400);
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            StartSineWaveSound(293.7f);
+            StartSineWaveSound(293.7f,400);
         }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            StartSineWaveSound(293.7f);
+            StartSineWaveSound(293.7f,400);
         }
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            StartSineWaveSound(261.6f);
+            StartSineWaveSound(261.6f,200);
         }
 
         private void Button_Click_7(object sender, RoutedEventArgs e)
         {
-            StartSineWaveSound(329.6f);
+            StartSineWaveSound(329.6f,200);
         }
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
         {
-            StartSineWaveSound(391.9f);
+            StartSineWaveSound(391.9f,400);
         }
     }
 
