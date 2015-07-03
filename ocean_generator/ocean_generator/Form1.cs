@@ -15,10 +15,10 @@ namespace ocean_generator
             InitializeComponent();
         }
 
-        private int duration = 20; //duration
+        private int duration = 50; //duration
         private int sampleRate = 44100; //sample rate
         private int channels = 2; //channels number
-        private int LFOAmplitude = 800; //LFO Amplitude
+        private int LFOAmplitude = 100; //LFO Amplitude
         private float Q = 0.8f; //resonance
         private int LFOMinVal = 300; //minimum cutoff frequency value for low pass filter
 
