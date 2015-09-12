@@ -20,14 +20,15 @@ namespace task3
             InitializeComponent();
         }
 
+        String patternsDirectory = @"C:\Users\Maciek\Desktop\sound\speech_rec(1)\speech_rec\patterns_txt";
         NAudio.Wave.WaveChannel32 wave = null;
         NAudio.Wave.DirectSoundOut output = null;
         String waveFileName = null;
         List<double> samples = new List<double>();
-        private double[][] dividedUnits;
-        public int windowSize = 2 * 1024;
-        String analyzedMelFile = "analyzed.txt";
+        private double[][] blocks;
+        String analyzedFile = "analyzed.txt";
         DTW dtw;
+        String tag = "MAIN: ";
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -35,6 +36,8 @@ namespace task3
 
         private void browse_btn_Click(object sender, EventArgs e)
         {
+            Debug.WriteLine(tag + "loading wav file");
+
             OpenFileDialog open = new OpenFileDialog();
             open.Filter = "Wave file(*.wav)|*.wav;";
 
@@ -64,6 +67,8 @@ namespace task3
 
         private void play_btn_Click(object sender, EventArgs e)
         {
+            Debug.WriteLine(tag + "playing wav file");
+
             DisposeWave();
             wave = new NAudio.Wave.WaveChannel32(new NAudio.Wave.WaveFileReader(waveFileName));
             output = new NAudio.Wave.DirectSoundOut();
@@ -94,24 +99,24 @@ namespace task3
 
         private void find_btn_Click(object sender, EventArgs e)
         {
-            MelCepstrum cep = new MelCepstrum();
-            convertToUnits();
+            MFCC cep = new MFCC();
 
-            double[][] melCoeff = cep.getMelCepstrum(dividedUnits, 1024, 44100);
-            saveMelToFile(melCoeff);
-            compareWithPatterns();
+            Debug.WriteLine(tag + "dividing samples into blocks");
+            ConvertToBlocks();
+
+            Debug.WriteLine(tag + "calculating mel-frequency cepstral coefficients");
+            double[][] mfcc = cep.GetMFCC(blocks, 1024, 44100);
+
+            Debug.WriteLine(tag + "saving analyzed coefficients to file");
+            MFCCToFile(mfcc);
+
+            Debug.WriteLine(tag + "comparing analyzed coefficients with patterns");
+            CompareWithPatterns();
         }
 
-        private void convertToUnits()
+        private void ConvertToBlocks()
         {
-            /*
-            for (int k = 1; k <= 850; k++)
-            {
-                samples.RemoveAt(samples.Count - 1);
-            }
-            */
-
-            double[] units = new double[samples.Count / 2];
+            double[] samp = new double[samples.Count / 2];
             double max = 0;
 
             for (int i = 0; i < samples.Count; i += 2)
@@ -120,20 +125,58 @@ namespace task3
                 {
                     max = Math.Abs(samples[i]);
                 }
-                units[i / 2] = samples[i];
+                samp[i / 2] = samples[i];
             }
 
-            for (int i = 0; i < units.Length; i++)
+            for (int i = 0; i < samp.Length; i++)
             {
-                units[i] = units[i] * (1 / max);
+                samp[i] = samp[i] * (1 / max);
             }
 
-            Debug.WriteLine("Frames length: " + units.Length);
-
-            dividedUnits = WindowFunction.sampling(units, 1024);
+            blocks = DivideToBlocks(samp, 1024);
         }
 
-        private void saveMelToFile(double[][] melCoeff)
+        public static double[][] DivideToBlocks(double[] array, int sampRate)
+        {
+            int samplingRate = sampRate;
+            if (IsPowerOfTwo(sampRate))
+            {
+                samplingRate = sampRate;
+            }
+
+            double[][] result = new double[(int)Math.Ceiling(array.Length / (double)samplingRate)][];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                if (i * samplingRate + samplingRate <= array.Length)
+                {
+                    result[i] = new double[samplingRate];
+                }
+                else
+                {
+                    result[i] = new double[array.Length - i * samplingRate];
+                }
+
+                for (int j = 0; j < samplingRate; j++)
+                {
+                    if (i * samplingRate + j >= array.Length)
+                    {
+                        break;
+                    }
+
+                    result[i][j] = array[i * samplingRate + j];
+                }
+            }
+
+            return result;
+        }
+
+        public static bool IsPowerOfTwo(int n)
+        {
+            return ((n & (n - 1)) == 0) && n > 0;
+        }
+
+        private void MFCCToFile(double[][] melCoeff)
         {
             String entry = "";
 
@@ -149,27 +192,27 @@ namespace task3
                 }
                 entry += '\n';
             }
-            File.WriteAllText(analyzedMelFile, entry);
+            File.WriteAllText(analyzedFile, entry);
         }
 
-        private void compareWithPatterns()
+        private void CompareWithPatterns()
         {
-            string[] filePaths = Directory.GetFiles(@"C:\Users\Maciek\Desktop\sound\speech_rec\models");
+            string[] filePaths = Directory.GetFiles(patternsDirectory);
             double minimal = 999999;
             String bestMatch = "None.";
             Dictionary<String, Double> filePathValue = new Dictionary<String, Double>();
             foreach (string file in filePaths)
             {
-                Debug.WriteLine(file);
-                String modelMelFile = file;
-                dtw = new DTW(modelMelFile, analyzedMelFile, false);
-                dtw.calculatePath();
-                if (dtw.getMinimalPath() < minimal)
+                String patternFile = file;
+                dtw = new DTW(patternFile, analyzedFile, true);
+                dtw.CalculatePath();
+                if (dtw.GetMinimalPath() < minimal)
                 {
-                    minimal = dtw.getMinimalPath();
+                    minimal = dtw.GetMinimalPath();
                     bestMatch = file;
                 }
-                filePathValue.Add(file, dtw.getMinimalPath());
+                filePathValue.Add(file, dtw.GetMinimalPath());
+                Debug.WriteLine(file + " result = " + dtw.GetMinimalPath());
             }
             Debug.WriteLine("BEST MATCH: " + bestMatch);
         }

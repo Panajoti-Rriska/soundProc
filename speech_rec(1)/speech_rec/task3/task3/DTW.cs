@@ -8,29 +8,27 @@ namespace task3
 {
     class DTW
     {
-        private List<int> rows;
-        private List<int> cols;
         private double[][] g;
-        private double[][] model; // array of model signal
+        private double[][] pattern; // array of patern signal
         private double[][] analyzed; // array of analyzed signal
-        private bool itakura;
+        private bool scband;
         private double gMax = 0.0;
 
         private double minimalPath = 0;
 
-        public DTW(String modelFile, String analyzedFile, bool itakura)
+        public DTW(String patternFile, String analyzedFile, bool scband)
         {
 
-            this.itakura = itakura;
-            this.model = readMelFromFile(modelFile);
-            this.analyzed = readMelFromFile(analyzedFile);
-            this.g = new double[model.Length][];
+            this.scband = scband;
+            this.pattern = ReadMelFromFile(patternFile);
+            this.analyzed = ReadMelFromFile(analyzedFile);
+            this.g = new double[pattern.Length][];
 
             // fill array with random high numbers, leave starting point
             g[0] = new double[analyzed.Length];
             g[0][0] = 0;
 
-            for (int i = 1; i < model.Length; i++)
+            for (int i = 1; i < pattern.Length; i++)
             {
                 g[i] = new double[analyzed.Length];
                 g[i][0] = 99999;
@@ -43,13 +41,13 @@ namespace task3
         }
 
         // (17) 
-        public void calculatePath()
+        public void CalculatePath()
         {
-            for (int j = 1; j < model.Length; j++)
+            for (int j = 1; j < pattern.Length; j++)
             {
                 for (int i = 1; i < analyzed.Length; i++)
                 {
-                    if (!itakuraConstraint(i, j, analyzed.Length, model.Length))
+                    if (!SCBand(i, j))
                     {
                         g[j][i] = 99999;
                     }
@@ -59,33 +57,27 @@ namespace task3
                         temp.Add(g[j][i - 1]);
                         temp.Add(g[j - 1][i - 1]);
                         temp.Add(g[j - 1][i]);
-                        g[j][i] = round(euclideanDistance(model[j], analyzed[i])
-                                + min(temp), 2);
+                        g[j][i] = Round(EuclideanDistance(pattern[j], analyzed[i])
+                                + Min(temp), 2);
                         if (g[j][i] > gMax)
                         {
                             gMax = g[j][i];
                         }
                     }
-                    //                System.out.print("g[" + j + "][" + i + "]=" + g[j][i] + " ");
                 }
-                //            System.out.println("");
             }
 
             // normalize
-            minimalPath = g[model.Length - 1][analyzed.Length - 1] / (model.Length + analyzed.Length);
-            findBestPath();
+            minimalPath = g[pattern.Length - 1][analyzed.Length - 1] / (pattern.Length + analyzed.Length);
+            FindBestPath();
         }
 
         // (16)
-        public bool itakuraConstraint(int i, int j, int I, int J)
+        public bool SCBand(int i, int j)
         {
-            if (itakura)
+            if (scband)
             {
-                int lowerTop = 2 * (i - I) + J;
-                int lowerBottom = (int)(0.5 * (i - 1) + 1);
-                int upperBottom = 2 * (i - 1) + 1;
-                int upperTop = (int)(0.5 * (i - I) + J);
-                return j >= lowerTop && j >= lowerBottom && j <= upperBottom && j <= upperTop;
+                return Math.Abs(i - j) <= 2;
             }
             else
             {
@@ -94,7 +86,7 @@ namespace task3
         }
 
         // (7) calculate Euclidean distance
-        private double euclideanDistance(double[] s, double[] t)
+        private double EuclideanDistance(double[] s, double[] t)
         {
             double sum = 0.0;
             for (int i = 0; i < s.Length; i++)
@@ -104,7 +96,7 @@ namespace task3
             return Math.Sqrt(sum);
         }
 
-        private double min(List<double> values)
+        private double Min(List<double> values)
         {
             double min = 99999;
 
@@ -118,16 +110,11 @@ namespace task3
             return min;
         }
 
-        public void findBestPath()
+        public void FindBestPath()
         {
-            rows = new List<int>();
-            cols = new List<int>();
-
             int j = g.Length;
             int i = g[0].Length;
 
-            rows.Add(i);
-            cols.Add(j);
             j--;
             i--;
 
@@ -182,9 +169,6 @@ namespace task3
                     i--;
                 }
 
-                rows.Add(i);
-                cols.Add(j);
-
                 double sum = 0.0;
                 if (i >= 0 && j >= 0)
                 {
@@ -193,12 +177,12 @@ namespace task3
             }
         }
 
-        public double getMinimalPath()
+        public double GetMinimalPath()
         {
             return minimalPath;
         }
 
-        public static double round(double value, int places)
+        public static double Round(double value, int places)
         {
 
             long factor = (long)Math.Pow(10, places);
@@ -207,7 +191,7 @@ namespace task3
             return (double)tmp / factor;
         }
 
-        private double[][] readMelFromFile(String filePath)
+        private double[][] ReadMelFromFile(String filePath)
         {
             List<Double[]> array = new List<Double[]>();
 
@@ -221,50 +205,37 @@ namespace task3
                 String[] row = line.Split('\t');
                 if (row.Length > 1)
                 {
-                    array.Add(arrayToDouble(row));
+                    array.Add(ArrayToDouble(row));
                 }
                 else
                 {
                     array.Add(new Double[] { Double.Parse(line) });
                 }
-                Console.WriteLine(line);
                 counter++;
             }
 
             file.Close();
 
 
-            return arrayListToDouble(array);
+            return ArrayListToDouble(array);
         }
 
-        public static double[][] arrayListToDouble(List<Double[]> array)
+        public static double[][] ArrayListToDouble(List<Double[]> array)
         {
             double[][] res = new double[array.Count()][];
 
             for (int i = 0; i < array.Count(); i++)
             {
-                res[i] = arrayToDouble(array[i]);
+                res[i] = ArrayToDouble(array[i]);
             }
 
             return res;
         }
 
-        public static double[] arrayListToDouble2(List<int> array)
-        {
-            double[] res = new double[array.Count()];
-
-            for (int i = 0; i < array.Count(); i++)
-            {
-                res[i] = array[i];
-            }
-
-            return res;
-        }
-
-        public static Double[] arrayToDouble(String[] array)
+        public static Double[] ArrayToDouble(String[] array)
         {
             Double[] res = new Double[array.Length];
-            
+
             for (int i = 0; i < array.Length; i++)
             {
                 res[i] = Double.Parse(array[i]);
@@ -273,28 +244,13 @@ namespace task3
             return res;
         }
 
-        public static double[] arrayToDouble(Double[] array)
+        public static double[] ArrayToDouble(Double[] array)
         {
             double[] res = new double[array.Length];
 
             for (int i = 0; i < array.Length; i++)
             {
                 res[i] = array[i];
-            }
-
-            return res;
-        }
-
-        public static double[] twoDtoOneD(double[][] array)
-        {
-            double[] res = new double[array.Length * array[0].Length];
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                for (int j = 0; j < array[i].Length; j++)
-                {
-                    res[i * array[i].Length + j] = array[i][j];
-                }
             }
 
             return res;
